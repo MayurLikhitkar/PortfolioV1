@@ -37,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({
                         href={href}
                         target={target}
                         className={`${baseStyles} ${variantStyles[variant]} ${className}`}>
-                        <span>{children}</span><div className="absolute inset-0 flex justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div className={`relative w-4 ${variant === 'contained' ? 'bg-background-dark/50' : 'bg-primary-light/30'}`}></div></div>
+                        <span>{children}</span><div className="absolute inset-0 flex justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div className={`relative w-4 ${variant === 'contained' ? 'bg-background-dark/50' : 'bg-primary-light/80'}`}></div></div>
                     </a >
                     :
                     <button
