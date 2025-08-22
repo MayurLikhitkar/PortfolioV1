@@ -199,5 +199,5 @@ export const technologies = [
     { title: "CSS", img: css },
     { title: "Git", img: git },
     { title: "Material UI", img: mui },
-    { title: "Bootstrap", img: bootstrap },
+    // { title: "Bootstrap", img: bootstrap },
 ]

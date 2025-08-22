@@ -34,13 +34,13 @@ const Header: React.FC = () => {
     }, [currentPath, currentHash, navItems]);
 
     return (
-        <header className={`fixed w-full px-3 py-6 z-999`}>
+        <header className={`fixed w-full px-6 py-6 z-999 ${isMenuOpen ? 'h-full backdrop-blur-2xl' : ''}`}>
             <div className="container mx-auto max-w-screen-xl">
                 <nav className="flex items-center justify-between text-primary-light">
                     {/* Logo */}
-                    <Link to="/" className="flex items-center font-semibold text-2xl tracking-wider">
+                    <Link to="/" className="flex items-center font-bold text-2xl tracking-wider">
                         {/* <img src={logo} className="w-60 h-10" /> */}
-                        Mayur Likhitkar
+                        Mayur .
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -87,22 +87,25 @@ const Header: React.FC = () => {
                 </nav>
 
                 {/* Mobile Navigation */}
-                <nav className={`flex flex-col gap-5 rounded-sm bg-background-light p-6 transform transition-all duration-1000 ease-out ${isMenuOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-75 pointer-events-none'}`}
+                <nav className={`flex-col gap-5 ${isMenuOpen ? 'flex mt-15' : 'hidden'}`}
                     aria-hidden={!isMenuOpen}>
                     {navItems.map((item) => {
                         const isActive = item.hash
                             ? currentPath === item.path && currentHash === '#' + item.hash
                             : currentPath === item.path && !currentHash;
-                        return <Link
-                            key={item.key}
-                            to={{ pathname: item.path, hash: item.hash }}
-                            onClick={() => setIsMenuOpen(false)}
-                            className={`relative text-sm font-medium transition-colors after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:bg-primary-light after:transition-all after:duration-300 ${isActive
-                                ? "text-primary-light active-link"
-                                : "text-text-light hover:text-primary-light"
-                                }`}>
-                            {item.title}
-                        </Link>
+                        return (
+                            <Link
+                                key={item.key}
+                                to={{ pathname: item.path, hash: item.hash }}
+                                onClick={() => setIsMenuOpen(false)}
+                                className={`relative text-sm font-medium flex items-center gap-3 transition-colors ${isActive
+                                    ? "text-primary-light active-link"
+                                    : "text-text-light hover:text-primary-light"
+                                    }`}
+                            >
+                                <item.icon className='inline-block' /> {item.title}
+                            </Link>
+                        )
                     })}
                     <Button link href='{whatsappLink}'>Get Started</Button>
                 </nav>

@@ -23,15 +23,15 @@ const Select: React.FC<SelectProps> = ({
             <select
                 value={value}
                 {...rest}
-                className={`bg-muted-foreground/15 p-2 rounded border border-primary-default/20 text-text py-2 w-full ${className || ''}`}
+                className={`bg-background-dark p-2 rounded border border-dark-dark text-text-light py-2 w-full ${className || ''}`}
             >
                 {placeholder && (
-                    <option value="" className='text-text bg-background' disabled>
+                    <option value="" className='text-text-light bg-background-main' disabled>
                         {placeholder}
                     </option>
                 )}
                 {options.map((opt) => (
-                    <option key={opt.value} className='text-text bg-background' value={opt.value}>
+                    <option key={opt.value} className='text-text-main bg-background-light' value={opt.value}>
                         {opt.label}
                     </option>
                 ))}

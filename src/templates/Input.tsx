@@ -4,7 +4,7 @@ const Input: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({ className, ...
     return (
         <div>
             <input
-                className={`bg-muted-foreground/15 p-2 w-full rounded border border-primary-default/20 text-text ${className || ''}`}
+                className={`bg-background-dark p-2 w-full rounded border border-dark-dark text-text-light ${className || ''}`}
                 {...props}
             />
         </div>

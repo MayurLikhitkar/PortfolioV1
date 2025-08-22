@@ -19,7 +19,7 @@ const Tooltip: React.FC<TooltipProps> = ({ children, text, position = 'top' }) =
 
     return (
         <div
-            className="relative inline-block"
+            className="relative cursor-pointer"
             onMouseEnter={() => setVisible(true)}
             onMouseLeave={() => setVisible(false)}
             onFocus={() => setVisible(true)}
@@ -30,7 +30,7 @@ const Tooltip: React.FC<TooltipProps> = ({ children, text, position = 'top' }) =
 
             <div
                 role="tooltip"
-                className={`absolute z-10 px-3 py-1 font-semibold text-sm text-dark-main bg-secondary-main rounded-sm shadow-lg whitespace-normal ${positions[position]} transition-all duration-900 ${visible ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
+                className={`absolute z-10 px-3 py-1 font-semibold text-xs text-dark-main bg-secondary-main rounded-sm whitespace-normal ${positions[position]} transition-all duration-900 ${visible ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
             >
                 {text}
             </div>

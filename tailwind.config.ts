@@ -25,9 +25,9 @@ const config: Config = {
                     dark: "#3b82f6"
                 },
                 background: {
-                    light: "#1c2e44",
-                    main: '#091f36',
-                    dark: '#0b1227',
+                    light: "#303030",
+                    main: '#181818',
+                    dark: '#000000',
                 },
                 text: {
                     light: "#d1d5db",  // Light elements
@@ -35,9 +35,9 @@ const config: Config = {
                     dark: "#9ca3af"
                 },
                 dark: {
-                    light: "#1c2e44",
-                    main: '#091f36',
-                    dark: '#0b1227',
+                    light: "#303030",
+                    main: '#181818',
+                    dark: '#000000',
                 },
                 primary: {
                     light: "#5CFFDE",  // Teal for primary actions
@@ -58,6 +58,11 @@ const config: Config = {
                     main: "#ef4444",  // Bright red for errors
                     light: "#f87171",
                     dark: "#dc2626"
+                },
+                warn: {
+                    main: '#FFB62E',
+                    light: '#FFC65C',
+                    dark: '#FFA700'
                 },
                 muted: {
                     main: "#6b7280",  // Muted text

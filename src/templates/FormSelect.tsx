@@ -30,7 +30,7 @@ const FormSelect = <T,>({
 
     return (
         <div className={className}>
-            <label className="w-full inline-block text-sm font-medium text-text mb-3" htmlFor={id}>{label} {required ? <span className='text-danger'>*</span> : <></>}</label>
+            <label className="w-full inline-block text-base font-medium text-text mb-2" htmlFor={id}>{label} {required ? <span className='text-danger'>*</span> : <></>}</label>
             <Select
                 id={id}
                 name={name}
@@ -41,10 +41,10 @@ const FormSelect = <T,>({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 disabled={disabled}
-                className={error ? '!border-danger !focus:ring-danger !focus:border-danger' : ''}
+                className={error ? '!border-error-main !focus:ring-error-main !focus:border-error-main' : ''}
             />
             {error && (
-                <div className="text-sm text-danger mt-1">{helperText}</div>
+                <div className="text-sm text-error-main mt-1">{helperText}</div>
             )}
         </div>
     )

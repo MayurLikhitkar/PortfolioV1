@@ -6,5 +6,5 @@
 
 .bg-dots {
   background-image: radial-gradient(circle, var(--background-light) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-size: 30px 30px;
 }
