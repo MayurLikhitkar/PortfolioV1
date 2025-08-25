@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Button from '../templates/Button'
 import { IoLogoGithub } from "react-icons/io";
 import { CiShare1 } from "react-icons/ci";
-import { BsCaretRight } from "react-icons/bs";
+import { MdFolder } from "react-icons/md";
+import { BsCaretRight, BsQuestionCircle } from "react-icons/bs";
 import { experience, projects, technologies } from '../utilities/data';
 import Tooltip from '../templates/Tooltip';
 import { GoDotFill } from "react-icons/go";
@@ -15,6 +16,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import FormTextArea from '../templates/FormTextArea';
 import { BsFillSendFill } from "react-icons/bs";
+import MacContainer from '../components/MacContainer';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -141,61 +143,9 @@ const Home: React.FC = () => {
             </section>
 
             <SectionContainer id='projects' title='Featured Projects' description='Showcasing my expertise in full-stack development, performance optimization, and scalable architecture'>
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
-                    {projects.map((project) => (
-                        <div key={project.id} className="group h-full p-5 rounded-lg text-text-main bg-background-main backdrop-blur-sm border border-primary-main/30 hover:border-primary-main transition-all duration-300 space-y-6">
-                            <div className="flex flex-col space-y-4">
-                                <div className="flex items-center justify-between mb-2">
-                                    <div className="p-3 rounded-lg">
-                                        {/* Icon */}
-
-                                    </div>
-                                    <div className="flex space-x-2">
-                                        <a
-                                            href="https://github.com/AryanAgrahari07/SndramPortal"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className=""
-                                        >
-                                            {/* GitHub Icon */}
-                                            <IoLogoGithub className="h-5 w-5" />
-                                        </a>
-                                        <a
-                                            href="https://misadmindev.sundarammutual.com/"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className=""
-                                        >
-                                            {/* External Link Icon */}
-                                            <CiShare1 className="h-5 w-5" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <h4 className="font-semibold tracking-tight text-lg md:text-2xl text-primary-light transition-colors leading-tight">
-                                    {project.title}
-                                </h4>
-                                <div className="text-text-main text-base">
-                                    {project.description}
-                                </div>
-                            </div>
-                            <div className="space-y-4">
-                                <div className="flex flex-wrap gap-2">
-                                    {project.technologies.map((tech, id) => (
-                                        <div key={id} className="items-center rounded-full border px-3 py-0.5 font-semibold border-border-main/50 bg-primary-main text-dark-dark text-xs sm:text-sm">{tech}</div>
-                                    ))}
-                                </div>
-                                <ul className="space-y-2 text-xs sm:text-sm text-text-main">
-                                    {project.bullets.map((bullet, id) => (
-                                        <li key={id} className="flex items-center gap-4 ">
-                                            <BsCaretRight className="flex-shrink-0 h-3 w-3" />
-                                            <span>{bullet}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <MacContainer title='Featured Projects' description='Showcasing my expertise in full-stack development, performance optimization, and scalable architecture'>
+                    hii
+                </MacContainer>
             </SectionContainer>
 
             <SectionContainer id='experience' title='Experience' description='Highlights of my career and key projects showcasing my skills & impact.'>
@@ -310,7 +260,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </SectionContainer>
-            
+
         </>
     )
 }
