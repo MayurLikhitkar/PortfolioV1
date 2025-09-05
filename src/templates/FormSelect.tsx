@@ -10,7 +10,8 @@ interface FormSelectProps<T> {
     options: { label: string, value: string | number }[],
     required?: boolean
     disabled?: boolean
-    className?: string
+    className?: string;
+    withLabel?: boolean;
 }
 
 const FormSelect = <T,>({
@@ -21,6 +22,7 @@ const FormSelect = <T,>({
     className,
     options,
     formik,
+    withLabel = true,
     required = false,
     disabled = false
 }: FormSelectProps<T>) => {
@@ -30,7 +32,7 @@ const FormSelect = <T,>({
 
     return (
         <div className={className}>
-            <label className="w-full inline-block text-base font-medium text-text mb-2" htmlFor={id}>{label} {required ? <span className='text-danger'>*</span> : <></>}</label>
+            {withLabel && (<label className="w-full inline-block text-base font-medium text-text-main mb-2" htmlFor={id}>{label} {required ? <span className='text-error-main'>*</span> : <></>}</label>)}
             <Select
                 id={id}
                 name={name}

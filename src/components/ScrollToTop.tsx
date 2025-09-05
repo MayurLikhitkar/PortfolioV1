@@ -22,7 +22,7 @@ const ScrollToTop: React.FC = () => {
                 <button
                     onClick={scrollToTop}
                     aria-label="Scroll to top"
-                    className="fixed bottom-8 right-8 p-2 text-xl rounded-full group cursor-pointer border border-border-light text-dark-dark bg-primary-dark hover: z-50 transform transition-transform duration-100 ease-in-out hover:scale-110">
+                    className="fixed bottom-8 right-8 p-3 text-lg rounded-full group cursor-pointer border border-border-light text-dark-dark bg-primary-light hover: z-50 transform transition-transform duration-100 ease-in-out hover:scale-110">
                     <HiOutlineArrowLongUp className="" />
                     <div className="absolute inset-0 flex justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div className={`relative w-4 bg-background-dark/70`}></div></div>
                 </button>

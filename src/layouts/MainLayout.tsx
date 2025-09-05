@@ -12,7 +12,9 @@ const MainLayout: React.FC = () => {
                 const id = hash.replace("#", "");
                 const element = document.getElementById(id);
                 if (element) {
-                    element.scrollIntoView({ behavior: "smooth" });
+                    const yOffset = 60;
+                    const y = element.getBoundingClientRect().top + window.pageYOffset - yOffset;
+                    window.scrollTo({ top: y, left: 0, behavior: "smooth" });
                     return;
                 }
             }, 0);
@@ -20,6 +22,7 @@ const MainLayout: React.FC = () => {
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         }
     }, [pathname, hash]);
+
 
     return (
         <div className="bg-background-dark bg-dots">

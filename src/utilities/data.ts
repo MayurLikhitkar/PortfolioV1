@@ -13,7 +13,7 @@ import css from '../assets/images/technologies/css.png'
 import bootstrap from '../assets/images/technologies/bootstrap.png'
 import git from '../assets/images/technologies/git.png'
 import mui from '../assets/images/technologies/mui.png'
-import { FaInstagram, FaLinkedinIn, FaWhatsapp, FaProjectDiagram } from "react-icons/fa";
+import { FaInstagram, FaLinkedinIn, FaWhatsapp, FaProjectDiagram, FaGamepad, FaFilm, FaInternetExplorer } from "react-icons/fa";
 import { FaMeta, FaCode } from "react-icons/fa6";
 import { IoMailOutline, IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TbClockHour4 } from "react-icons/tb";
@@ -21,13 +21,15 @@ import { BiSolidUser } from "react-icons/bi";
 import { HiOutlineBriefcase } from "react-icons/hi";
 import { LuSmartphone } from "react-icons/lu";
 import { RiHome2Line } from "react-icons/ri";
+import { BsBrowserChrome } from "react-icons/bs";
+import { MdOutlineWysiwyg } from "react-icons/md";
 
 export const navItems = [
     { title: "Home", key: "home", path: "/", hash: "", icon: RiHome2Line },
-    { title: "About", key: "about", path: "/", hash: "about", icon: BiSolidUser },
-    { title: "Skills", key: "skills", path: "/", hash: "skills", icon: FaCode },
+    { title: "About", key: "about", path: "/about", hash: "", icon: BiSolidUser },
     { title: "Experience", key: "experience", path: "/", hash: "experience", icon: HiOutlineBriefcase },
     { title: "Projects", key: "projects", path: "/", hash: "projects", icon: FaProjectDiagram },
+    { title: "Skills", key: "skills", path: "/", hash: "skills", icon: FaCode },
     { title: "Contact", key: "contact", path: "/", hash: "contact", icon: LuSmartphone },
 ]
 
@@ -103,7 +105,8 @@ export const projects = [
     {
         id: 1,
         title: "JobCompass - Job Application Platform",
-        description: "Showcasing my expertise in full-stack development, performance optimization, and scalable architecture",
+        description: "A full-stack MERN job portal where candidates can apply and employers can manage postings. Backend built with Node.js and Express.js, implementing secure user and admin authentication, dynamic routing, and CRUD operations with MongoDB. The frontend uses React for interactive UI and asynchronous API calls.",
+        duration: "Aug 2024 - Sep 2024",
         icon: '<TbClockHour4 />',
         technologies: ["React", "Node", "MongoDB", 'Express', 'Bootstrap'],
         bullets: [
@@ -115,7 +118,8 @@ export const projects = [
     {
         id: 2,
         title: "E-Shopp - Online Shopping Platform",
-        description: "Building a responsive and interactive web application using React and TypeScript",
+        description: "A responsive e-commerce web app built in React, integrating with a third-party Fake Store API for product data. Focuses on shopping features, async data handling, and UI state management using Redux Toolkit. No backend required; all product and cart logic handled client-side for realistic demo experience.",
+        duration: "Jul 2024",
         icon: '<FaWhatsapp />',
         technologies: ["React", "TypeScript", "Tailwind CSS", 'Redux Toolkit'],
         bullets: [
@@ -128,7 +132,8 @@ export const projects = [
     {
         id: 3,
         title: "Portfolio - Personal Portfolio Website",
-        description: "Designing and developing a RESTful API using Node.js and Express",
+        description: "A modern personal portfolio site built with React and TypeScript, featuring a responsive interface designed in Tailwind CSS. Highlights development projects, technical skills, and integrates Vite for fast development and optimized production build.",
+        duration: "Aug 2025",
         icon: '<FaLinkedinIn />',
         technologies: ["React", "Tailwind CSS", "TypeScript"],
         bullets: [
@@ -144,7 +149,7 @@ export const experience = [
         role: "Trainee Software Developer Intern",
         company: "Vected Technologies Private Limited",
         location: "Indore, Madhya Pradesh",
-        timeframe: "Sep 2024 – Feb 2025",
+        duration: "Sep 2024 – Feb 2025",
         description:
             "Delivered support to the development team in CRM and Support Portals. Contributed to building efficient and maintainable web applications using modern JavaScript frameworks.",
         bullets: [
@@ -159,7 +164,7 @@ export const experience = [
         role: "Frontend Developer (Project)",
         company: "E-Shopp - Ecommerce Application",
         location: "",
-        timeframe: "2024",
+        duration: "2024",
         description:
             "Developed an e-commerce web application frontend using ReactJS, integrating third-party APIs to simulate real-world scenarios.",
         bullets: [
@@ -172,7 +177,7 @@ export const experience = [
         role: "Full Stack Developer (Project, In Progress)",
         company: "JobCompass - Job Portal Application",
         location: "",
-        timeframe: "2025",
+        duration: "2025",
         description:
             "Building a MERN stack job portal enabling secure user authentication, robust API design, and comprehensive database management.",
         bullets: [
@@ -199,5 +204,49 @@ export const technologies = [
     { title: "CSS", img: css },
     { title: "Git", img: git },
     { title: "Material UI", img: mui },
-    // { title: "Bootstrap", img: bootstrap },
+    { title: "Bootstrap", img: bootstrap },
+]
+
+export const education = [
+    {
+        degree: "Bachelor Of Technology in Computer Science",
+        institute: "Shivajirao Kadam Institute Of Technology & Management",
+        location: "Indore, Madhya Pradesh",
+        duration: "Oct 2021 – May 2025",
+    },
+    {
+        degree: "Higher Secondary Education",
+        institute: "Pratham Academy Higher Secondary School",
+        location: "Indore, Madhya Pradesh",
+        duration: "Jun 2020 - May 2021",
+    },
+    {
+        degree: "High School Education",
+        institute: "Pratham Academy Higher Secondary School",
+        location: "Indore, Madhya Pradesh",
+        duration: "Jun 2018 - May 2019",
+    },
+];
+
+export const interests = [
+    {
+        title: "Coding",
+        icon: FaCode,
+    },
+    {
+        title: "Surfing Internet",
+        icon: BsBrowserChrome
+    },
+    {
+        title: "New Technologies",
+        icon: MdOutlineWysiwyg,
+    },
+    {
+        title: "Watching Movies",
+        icon: FaFilm,
+    },
+    {
+        title: "Gaming",
+        icon: FaGamepad,
+    },
 ]

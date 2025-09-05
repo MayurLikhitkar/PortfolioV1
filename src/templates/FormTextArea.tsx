@@ -10,7 +10,8 @@ interface FormTextAreaProps<T> {
     rows?: number
     required?: boolean
     className?: string
-    disabled?: boolean
+    disabled?: boolean;
+    withLabel?: boolean
 }
 
 const FormTextArea = <T,>({
@@ -21,6 +22,7 @@ const FormTextArea = <T,>({
     formik,
     className,
     rows = 2,
+    withLabel = true,
     required = false,
     disabled = false
 }: FormTextAreaProps<T>) => {
@@ -30,7 +32,7 @@ const FormTextArea = <T,>({
 
     return (
         <div className={className}>
-            <label className="w-full inline-block text-base font-medium text-text-main mb-2" htmlFor={id}>{label} {required ? <span className='text-error-main'>*</span> : <></>}</label>
+            {withLabel && (<label className="w-full inline-block text-base font-medium text-text-main mb-2" htmlFor={id}>{label} {required ? <span className='text-error-main'>*</span> : <></>}</label>)}
             <TextArea
                 id={id}
                 name={name}

@@ -11,7 +11,8 @@ interface FormInputProps<T> {
     formik: FormikProps<T>,
     required?: boolean
     disabled?: boolean
-    className?: string
+    className?: string;
+    withLabel?: boolean
 }
 
 const FormInput = <T,>({
@@ -22,6 +23,7 @@ const FormInput = <T,>({
     className,
     type,
     formik,
+    withLabel = true,
     required = false,
     disabled = false
 }: FormInputProps<T>) => {
@@ -31,7 +33,7 @@ const FormInput = <T,>({
 
     return (
         <div className={`${className}`}>
-            <label className="w-full inline-block text-base font-medium text-text-main mb-2" htmlFor={id}>{label} {required ? <span className='text-error-main'>*</span> : <></>}</label>
+            {withLabel && (<label className="w-full inline-block text-base font-medium text-text-main mb-2" htmlFor={id}>{label} {required ? <span className='text-error-main'>*</span> : <></>}</label>)}
             <Input
                 id={id}
                 name={name}
