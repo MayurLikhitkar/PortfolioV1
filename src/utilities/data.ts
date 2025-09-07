@@ -13,16 +13,16 @@ import css from '../assets/images/technologies/css.png'
 import bootstrap from '../assets/images/technologies/bootstrap.png'
 import git from '../assets/images/technologies/git.png'
 import mui from '../assets/images/technologies/mui.png'
-import { FaInstagram, FaLinkedinIn, FaWhatsapp, FaProjectDiagram, FaGamepad, FaFilm, FaInternetExplorer } from "react-icons/fa";
-import { FaMeta, FaCode } from "react-icons/fa6";
-import { IoMailOutline, IoCallOutline, IoLocationOutline } from "react-icons/io5";
-import { TbClockHour4 } from "react-icons/tb";
+import { FaProjectDiagram, FaGamepad, FaFilm } from "react-icons/fa";
+import { FaMeta, FaCode, FaLocationDot } from "react-icons/fa6";
+import { IoCall } from "react-icons/io5";
 import { BiSolidUser } from "react-icons/bi";
 import { HiOutlineBriefcase } from "react-icons/hi";
 import { LuSmartphone } from "react-icons/lu";
 import { RiHome2Line } from "react-icons/ri";
 import { BsBrowserChrome } from "react-icons/bs";
 import { MdOutlineWysiwyg } from "react-icons/md";
+import { IoMdMail } from 'react-icons/io'
 
 export const navItems = [
     { title: "Home", key: "home", path: "/", hash: "", icon: RiHome2Line },
@@ -33,72 +33,31 @@ export const navItems = [
     { title: "Contact", key: "contact", path: "/", hash: "contact", icon: LuSmartphone },
 ]
 
-export const footerLinks = {
-    Product: [
-        { name: "Features", to: "/features" },
-        { name: "Services", to: "/services" },
-        { name: "Pricing", to: "/pricing" },
-        { name: "Process", to: "/process" },
-        { name: "Documentation", to: "#" },
-    ],
-    Company: [
-        { name: "About", to: "#" },
-        { name: "Blog", to: "/blog" },
-        { name: "Contact", to: "/contact" },
-        { name: "Careers", to: "#" },
-        { name: "Press", to: "#" },
-    ],
-    Resources: [
-        { name: "FAQ", to: "/faq" },
-        { name: "Community", to: "#" },
-        { name: "Help Center", to: "#" },
-        { name: "Status", to: "#" },
-        { name: "Changelog", to: "#" },
-    ],
-    Legal: [
-        { name: "Privacy Policy", to: "#" },
-        { name: "Terms of Service", to: "#" },
-        { name: "Cookie Policy", to: "#" },
-        { name: "GDPR", to: "#" },
-    ],
-}
-
-export const socialLinks = [
-    { name: "Whatsapp", icon: FaWhatsapp, to: "#" },
-    { name: "Instagram", icon: FaInstagram, to: "#" },
-    { name: "LinkedIn", icon: FaLinkedinIn, to: "#" },
-    { name: "Meta", icon: FaMeta, to: "#" },
-]
+export const Whatsapp = 'https://api.whatsapp.com/send?phone=6260658118';
+export const Instagram = 'https://www.instagram.com/likhitkar_mayur/';
+export const Linkedin = 'https://www.linkedin.com/in/mayur-likhitkar/';
+export const Github = 'https://github.com/MayurLikhitkar';
+export const Email = 'mayurlikhitkar786@gmail.com';
 
 export const contactInfo = [
     {
-        icon: IoMailOutline,
-        title: "Email Us",
-        description: "Send us an email anytime",
-        contact: "hello@aicode.com",
-        action: "mailto:hello@aicode.com",
+        icon: IoMdMail,
+        title: "Email Me",
+        contact: "mayurlikhitkar786@gmail.com",
+        action: "mailto:mayurlikhitkar786@gmail.com",
     },
     {
-        icon: IoCallOutline,
-        title: "Call Us",
-        description: "Mon-Fri from 8am to 6pm",
-        contact: "+1 (555) 123-4567",
-        action: "tel:+15551234567",
+        icon: IoCall,
+        title: "Call Me",
+        contact: "+91 6260658118",
+        action: "tel:+916260658118",
     },
     {
-        icon: IoLocationOutline,
-        title: "Visit Us",
-        description: "Come say hello at our office",
-        contact: "123 Tech Street, San Francisco, CA 94105",
+        icon: FaLocationDot,
+        title: "I'm Based In",
+        contact: "Indore, Madhya Pradesh, India",
         action: "#",
-    },
-    {
-        icon: TbClockHour4,
-        title: "Working Hours",
-        description: "Our team is available",
-        contact: "Mon-Fri: 8am-6pm PST",
-        action: "#",
-    },
+    }
 ]
 
 export const projects = [
@@ -146,48 +105,39 @@ export const projects = [
 
 export const experience = [
     {
-        role: "Trainee Software Developer Intern",
-        company: "Vected Technologies Private Limited",
-        location: "Indore, Madhya Pradesh",
-        duration: "Sep 2024 – Feb 2025",
+        role: "Web Developer",
+        company: "Chit Codes Technologies",
+        location: "Indore, MP",
+        duration: "Mar 2025 – Present",
         description:
-            "Delivered support to the development team in CRM and Support Portals. Contributed to building efficient and maintainable web applications using modern JavaScript frameworks.",
+            "Build and maintain scalable MERN stack web applications, with a focus on robust backend API design, security, and documentation. Lead the development of reusable frontend components and API integrations, using best practices in validation, state management, and collaboration.",
         bullets: [
-            "Worked on CRM Portal and Support Portal for Vector Skill Academy.",
-            "Used Redux Saga for efficient state management.",
-            "Implemented responsive user interfaces with Material UI.",
-            "Designed and implemented RESTful APIs for real-time data exchange.",
-            "Built reusable React components to speed up development and improve code maintainability."
+            "Developed and maintained MERN stack applications (MongoDB, Express.js, React.js, Node.js) for dynamic business needs.",
+            "Designed, documented, and tested RESTful APIs using Swagger UI and express-validator for secure, reliable backend operations.",
+            "Implemented React-Redux for backend state management and data flow within server-side logic.",
+            "Delivered static and animated websites utilizing React.js, HTML, CSS, and JavaScript as per client requirements.",
+            "Created reusable React.js components and optimized database queries to enhance user experience and system performance.",
         ],
     },
     {
-        role: "Frontend Developer (Project)",
-        company: "E-Shopp - Ecommerce Application",
-        location: "",
-        duration: "2024",
+        role: "Software Developer Intern",
+        company: "Vected Technologies",
+        location: "Indore, MP",
+        duration: "Sep 2024 – Mar 2025",
         description:
-            "Developed an e-commerce web application frontend using ReactJS, integrating third-party APIs to simulate real-world scenarios.",
+            "Contributed to scalable web application development and real-time support portal features, integrating advanced backend technologies and cloud storage solutions as part of a collaborative engineering team.",
         bullets: [
-            "Used Fake Store API to handle product data.",
-            "Applied async/await and callbacks for handling API calls in ReactJS.",
-            "Currently refactoring and managing the app state with Redux Toolkit."
-        ],
-    },
-    {
-        role: "Full Stack Developer (Project, In Progress)",
-        company: "JobCompass - Job Portal Application",
-        location: "",
-        duration: "2025",
-        description:
-            "Building a MERN stack job portal enabling secure user authentication, robust API design, and comprehensive database management.",
-        bullets: [
-            "Set up Node.js server and managed routing, middleware, and API creation with Express.js.",
-            "Handled async operations in both ReactJS and NodeJS during API calls.",
-            "Implemented secure authentication and authorization for users and admin.",
-            "Designed and managed NoSQL database with MongoDB, supporting full CRUD operations."
+            "Developed applications using the MERN stack with efficient MongoDB data management and Express.js routing.",
+            "Documented and validated REST APIs using Swagger UI and express-validator for maintainable, secure backend services.",
+            "Implemented React-Redux for backend data flow and integrated Redux Saga for asynchronous operations management.",
+            "Engineered chat functionality for CRM Support Portal using socket.io for real-time communication.",
+            "Managed image upload, retrieval, and deletion workflows with S3 bucket integration for secure cloud storage.",
+            "Implemented role-based access control (RBAC) with OAuth2 and JWT for enhanced application security.",
+            "Created dynamic, responsive interfaces using React.js and collaborated on usability improvements.",
         ],
     },
 ];
+
 
 export const technologies = [
     { title: "React Js", img: react },

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { MdOutlineMenu, MdOutlineClose } from "react-icons/md";
 import { Link, useLocation } from 'react-router-dom';
 import Button from '../templates/Button';
-import { navItems } from '../utilities/data';
+import { Email, navItems } from '../utilities/data';
 import { IoMdMail } from "react-icons/io";
 import { IoSunnyOutline } from "react-icons/io5";
 
@@ -34,9 +34,9 @@ const Header: React.FC = () => {
     }, [currentPath, currentHash]);
 
     return (
-        <header className={`fixed w-full px-6 py-6 z-999 ${isMenuOpen ? 'h-full backdrop-blur-2xl' : ''}`}>
+        <header className={`fixed w-full px-5 py-6 z-999 ${isMenuOpen ? 'h-full backdrop-blur-2xl' : ''}`}>
             <div className="container mx-auto max-w-screen-lg">
-                <nav className={`flex items-center justify-between backdrop-blur-md text-primary-light border border-border-light/40 px-3 rounded-lg`}>
+                <nav className={`flex items-center justify-between backdrop-blur-md text-primary-light border border-border-light/40 px-3 py-4 lg:py-0 rounded-lg`}>
                     {/* Logo */}
                     <Link to="/" className="flex items-center font-bold text-2xl tracking-wider">
                         {/* <img src={logo} className="w-60 h-10" /> */}
@@ -77,7 +77,7 @@ const Header: React.FC = () => {
                     {/* CTA Button */}
                     <div className="hidden lg:flex gap-2">
                         <Button className=''><IoSunnyOutline /></Button>
-                        <Button className='' variant='outline'><IoMdMail /></Button>
+                        <Button link to={`mailto:${Email}`} target='_self' variant='outline'><IoMdMail /></Button>
                     </div>
 
                     {/* Mobile menu button */}
@@ -107,7 +107,7 @@ const Header: React.FC = () => {
                             </Link>
                         )
                     })}
-                    <Button link href='{whatsappLink}'>Get Started</Button>
+                    <Button link target="_self" to={`mailto:${Email}`}>Connect With Me</Button>
                 </nav>
             </div>
         </header>

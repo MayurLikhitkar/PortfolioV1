@@ -1,10 +1,11 @@
 import React, { type AnchorHTMLAttributes, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { Link, type To } from 'react-router-dom';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     link?: boolean;
+    to?: To;
     target?: AnchorHTMLAttributes<HTMLAnchorElement>['target'];
-    href?: AnchorHTMLAttributes<HTMLAnchorElement>['href'];
     variant?: 'contained' | 'outline';
     disabled?: boolean;
     className?: string;
@@ -22,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
     children,
     variant = 'contained',
     link = false,
-    href,
+    to = '/',
     type = 'button',
     target = '_blank',
     disabled = false,
@@ -33,19 +34,19 @@ const Button: React.FC<ButtonProps> = ({
         <>
             {
                 link ?
-                    <a
-                        href={href}
+                    <Link
+                        to={to}
                         target={target}
                         className={`${baseStyles} ${variantStyles[variant]} ${className}`}>
-                        {children}<div className="absolute inset-0 flex justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div className={`relative w-4 ${variant === 'contained' ? 'bg-background-dark/50' : 'bg-primary-light/80'}`}></div></div>
-                    </a >
+                        {children}<div className="absolute inset-0 flex justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div className={`relative w-4 ${variant === 'contained' ? 'bg-background-dark/50' : 'bg-primary-light/50'}`}></div></div>
+                    </Link>
                     :
                     <button
                         type={type}
                         className={`${baseStyles} ${variantStyles[variant]} ${className}`}
                         disabled={disabled}
                         {...rest}>
-                        {children}<div className="absolute inset-0 flex justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div className={`relative w-4 ${variant === 'contained' ? 'bg-background-dark/50' : 'bg-primary-light/30'}`}></div></div>
+                        {children}<div className="absolute inset-0 flex justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div className={`relative w-4 ${variant === 'contained' ? 'bg-background-dark/50' : 'bg-primary-light/50'}`}></div></div>
                     </button>}
         </>
     );
