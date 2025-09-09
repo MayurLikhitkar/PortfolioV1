@@ -14,7 +14,7 @@ import bootstrap from '../assets/images/technologies/bootstrap.png'
 import git from '../assets/images/technologies/git.png'
 import mui from '../assets/images/technologies/mui.png'
 import { FaProjectDiagram, FaGamepad, FaFilm } from "react-icons/fa";
-import { FaMeta, FaCode, FaLocationDot } from "react-icons/fa6";
+import { FaCode, FaLocationDot } from "react-icons/fa6";
 import { IoCall } from "react-icons/io5";
 import { BiSolidUser } from "react-icons/bi";
 import { HiOutlineBriefcase } from "react-icons/hi";
@@ -33,7 +33,7 @@ export const navItems = [
     { title: "Contact", key: "contact", path: "/", hash: "contact", icon: LuSmartphone },
 ]
 
-export const Whatsapp = 'https://api.whatsapp.com/send?phone=6260658118';
+export const Whatsapp = 'https://api.whatsapp.com/send?phone=6260658118&text=Hello%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20learn%20more%20about%20your%20work.';
 export const Instagram = 'https://www.instagram.com/likhitkar_mayur/';
 export const Linkedin = 'https://www.linkedin.com/in/mayur-likhitkar/';
 export const Github = 'https://github.com/MayurLikhitkar';
@@ -112,11 +112,13 @@ export const experience = [
         description:
             "Build and maintain scalable MERN stack web applications, with a focus on robust backend API design, security, and documentation. Lead the development of reusable frontend components and API integrations, using best practices in validation, state management, and collaboration.",
         bullets: [
-            "Developed and maintained MERN stack applications (MongoDB, Express.js, React.js, Node.js) for dynamic business needs.",
-            "Designed, documented, and tested RESTful APIs using Swagger UI and express-validator for secure, reliable backend operations.",
+            "Developed and maintained scalable web applications using the MERN stack (MongoDB, Express.js, React.js, Node.js), ensuring seamless integration across front-end and back-end layers.",
+            "Designed and developed reusable React.js components for admin dashboards and user interfaces,improving user experience and maintainability.",
             "Implemented React-Redux for backend state management and data flow within server-side logic.",
-            "Delivered static and animated websites utilizing React.js, HTML, CSS, and JavaScript as per client requirements.",
-            "Created reusable React.js components and optimized database queries to enhance user experience and system performance.",
+            "Built and optimized RESTful APIs using Node.js and Express.js to support dynamic user management and secure data operations.",
+            "Designed, documented, and tested RESTful APIs using Swagger UI and express-validator for secure,reliable backend operations.",
+            "Led the creation of static and animated websites for clients using React.js, delivering engaging and responsive user interfaces to enhance user experience.",
+            "Created visually appealing websites using HTML, CSS, and JavaScript, focusing on client-specific design requirements and seamless functionality."
         ],
     },
     {
@@ -127,13 +129,14 @@ export const experience = [
         description:
             "Contributed to scalable web application development and real-time support portal features, integrating advanced backend technologies and cloud storage solutions as part of a collaborative engineering team.",
         bullets: [
-            "Developed applications using the MERN stack with efficient MongoDB data management and Express.js routing.",
-            "Documented and validated REST APIs using Swagger UI and express-validator for maintainable, secure backend services.",
-            "Implemented React-Redux for backend data flow and integrated Redux Saga for asynchronous operations management.",
-            "Engineered chat functionality for CRM Support Portal using socket.io for real-time communication.",
+            "Contributed to the design and development of scalable web applications using the MERN stack (MongoDB,Express.js, React.js, Node.js), supporting seamless front-end and back-end integration under team leadership.",
+            "Contributed to optimizing database operations with MongoDB, enhancing query efficiency and supporting scalable data management solutions.",
+            "Integrated Redux Saga for react data flow as well as for asynchronous operations management.",
+            "Assisted in engineering and maintaining RESTful APIs using Node.js, Express.js, ensuring efficient communication between services.",
+            "Designed, documented, and tested RESTful APIs using Swagger UI and express-validator for secure,reliable backend operations.",
             "Managed image upload, retrieval, and deletion workflows with S3 bucket integration for secure cloud storage.",
-            "Implemented role-based access control (RBAC) with OAuth2 and JWT for enhanced application security.",
-            "Created dynamic, responsive interfaces using React.js and collaborated on usability improvements.",
+            "Assisted in implementing secure role-based access control (RBAC) systems using OAuth2 and JWT,strengthening application security and access management.",
+            "Developed dynamic and responsive front-end interfaces using React.js, enhancing user experience and interface usability as part of a collaborative team effort."
         ],
     },
 ];

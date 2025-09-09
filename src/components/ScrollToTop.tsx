@@ -20,7 +20,7 @@ const ScrollToTop: React.FC = () => {
     return (
         <>
             {showButton && (
-                <Button className="!fixed bottom-8 right-8 !py-2" onClick={scrollToTop}>
+                <Button className="!fixed bottom-8 right-8 !p-3" onClick={scrollToTop}>
                     <HiOutlineArrowLongUp className="" />
                 </Button>
             )}

@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Button from '../templates/Button';
 import { Email, navItems } from '../utilities/data';
 import { IoMdMail } from "react-icons/io";
-import { IoSunnyOutline } from "react-icons/io5";
+import logo from "../assets/images/logo.png";
 
 
 const Header: React.FC = () => {
@@ -36,15 +36,14 @@ const Header: React.FC = () => {
     return (
         <header className={`fixed w-full px-5 py-6 z-999 ${isMenuOpen ? 'h-full backdrop-blur-2xl' : ''}`}>
             <div className="container mx-auto max-w-screen-lg">
-                <nav className={`flex items-center justify-between backdrop-blur-md text-primary-light border border-border-light/40 px-3 py-4 lg:py-0 rounded-lg`}>
-                    {/* Logo */}
-                    <Link to="/" className="flex items-center font-bold text-2xl tracking-wider">
-                        {/* <img src={logo} className="w-60 h-10" /> */}
-                        Mayur .
+                <nav className={`flex items-center justify-between backdrop-blur-md text-primary-light border border-border-light/40 px-3 py-2 lg:py-0 rounded-lg`}>
+                    <Link to="/" className="flex items-center gap-3 font-bold text-xl tracking-wider rounded-full">
+                        <img src={logo} className="w-12 h-12 rounded-full bg-background-light" />
+                        Mayur Likhitkar
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div ref={navRef} className="hidden lg:flex items-center gap-8 bg-background-main/60 backdrop-blur-sm py-5 px-5">
+                    <div ref={navRef} className="hidden lg:flex items-center gap-5 bg-background-main/60 backdrop-blur-sm p-5">
                         {navItems.map((item) => {
                             const isActive = item.hash
                                 ? currentPath === item.path && currentHash === "#" + item.hash
@@ -74,9 +73,8 @@ const Header: React.FC = () => {
                         />
                     </div>
 
-                    {/* CTA Button */}
                     <div className="hidden lg:flex gap-2">
-                        <Button className=''><IoSunnyOutline /></Button>
+                        {/* <Button className=''><IoSunnyOutline /></Button> */}
                         <Button link to={`mailto:${Email}`} target='_self' variant='outline'><IoMdMail /></Button>
                     </div>
 
@@ -87,7 +85,7 @@ const Header: React.FC = () => {
                 </nav>
 
                 {/* Mobile Navigation */}
-                <nav className={`flex-col gap-5 ${isMenuOpen ? 'flex mt-15' : 'hidden'}`}
+                <div className={`flex-col gap-5 ${isMenuOpen ? 'flex mt-15' : 'hidden'}`}
                     aria-hidden={!isMenuOpen}>
                     {navItems.map((item) => {
                         const isActive = item.hash
@@ -108,7 +106,7 @@ const Header: React.FC = () => {
                         )
                     })}
                     <Button link target="_self" to={`mailto:${Email}`}>Connect With Me</Button>
-                </nav>
+                </div>
             </div>
         </header>
     )

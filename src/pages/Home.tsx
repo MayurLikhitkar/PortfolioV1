@@ -1,31 +1,28 @@
 import React, { useState } from 'react'
 import Button from '../templates/Button'
-import { IoLogoGithub, IoMdMail } from "react-icons/io";
-import { CiShare1 } from "react-icons/ci";
-import { MdFolder } from "react-icons/md";
-import { BsCaretRight, BsQuestionCircle } from "react-icons/bs";
-import { VscDebugBreakpointData, VscDebugBreakpointLog } from "react-icons/vsc";
-import { contactInfo, Email, experience, Instagram, Linkedin, projects, technologies, Whatsapp } from '../utilities/data';
-import { FaInstagram, FaLinkedinIn, FaWhatsapp, FaLinkedin, FaInstagramSquare, FaWhatsappSquare } from "react-icons/fa";
+import { IoLogoGithub } from "react-icons/io";
+import { VscDebugBreakpointLog } from "react-icons/vsc";
+import { contactInfo, experience, Github, Instagram, Linkedin, projects, technologies, Whatsapp } from '../utilities/data';
+import { FaLinkedin, FaInstagramSquare, FaWhatsappSquare, FaRegCalendarAlt } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
-import { HiOutlineArrowLongDown } from "react-icons/hi2";
-import { LuDot } from "react-icons/lu";
+import { HiOutlineArrowLongDown, HiOutlineBuildingOffice2 } from "react-icons/hi2";
 import SectionContainer from '../components/SectionContainer';
 import FormInput from '../templates/FormInput';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import FormTextArea from '../templates/FormTextArea';
-import { BsFillSendFill } from "react-icons/bs";
-import { IoChatbox } from "react-icons/io5";
+import { IoChatbox, IoSend } from "react-icons/io5";
 import BlackBox from '../components/BlackBox';
 import Resume from '../assets/documents/MayurLikhitkarResume.pdf';
-import { IoSend } from "react-icons/io5";
+import { CONTACT_FORM_SCRIPT_URL } from '../utilities/config';
+import { FaLocationDot } from 'react-icons/fa6';
+import { CgNotes } from 'react-icons/cg';
 
 const Home: React.FC = () => {
     const [response, setResponse] = useState('');
     const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
     const [visible, setVisible] = useState(false);
-    const scriptUrl = '';
+    const scriptUrl = CONTACT_FORM_SCRIPT_URL;
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -96,11 +93,11 @@ const Home: React.FC = () => {
 
                 if (res.ok) {
                     resetForm();
-                    setResponse('Your application has been sent!');
+                    setResponse('Your message has been sent!');
                     setIsSuccess(true);
                     setVisible(true);
                 } else {
-                    setResponse('Failed to send application.');
+                    setResponse('Failed to send message.');
                     setIsSuccess(false);
                     setVisible(true);
                 }
@@ -131,7 +128,7 @@ const Home: React.FC = () => {
                     <p className="text-2xl md:text-4xl lg:text-5xl text-text-main mb-8 font-bold tracking-wider max-w-4xl mx-auto">
                         Transforming Concepts into Seamless <span className='bg-gradient-to-r from-primary-light to-secondary-main bg-clip-text text-transparent '>User Experiences</span>
                     </p>
-                    <div className="flex flex-wrap gap-4 justify-center">
+                    <div className="flex flex-wrap gap-2 justify-center">
                         <Button
                             link
                             to="#connect"
@@ -141,24 +138,24 @@ const Home: React.FC = () => {
                         <Button
                             variant="outline"
                             to={Resume}
-                            link
-                        >
-                            Resume
+                            link>
+                            <CgNotes className='inline-block mr-1' /> Resume
                         </Button>
                         <Button
                             link
                             to={Linkedin}
                             variant="outline"
+                            target='_blank'
                         >
                             <FaLinkedin className='text-2xl' />
                         </Button>
                         <Button
                             link
-                            to={`mailto:${Email}`}
+                            to={Github}
                             variant="outline"
-                            target='_self'
+                            target='_blank'
                         >
-                            <IoMdMail className='text-2xl' />
+                            <IoLogoGithub className='text-2xl' />
                         </Button>
                     </div>
                 </div>
@@ -184,10 +181,11 @@ const Home: React.FC = () => {
                                         <h3 className="text-xl font-bold text-secondary-dark">
                                             {exp.role}
                                         </h3>
-                                        <p className="text-sm font-semibold bg-background-light px-3 py-1 rounded md:rounded-full w-fit">{exp.duration}</p>
+                                        <p className="hidden md:block text-sm font-semibold bg-background-light px-3 py-1 rounded md:rounded-full w-fit">{exp.duration}</p>
                                     </div>
-                                    <p className="font-semibold">{exp.company}</p>
-                                    <p className="mb-6">{exp.location}</p>
+                                    <p className="font-semibold flex items-center gap-2"><HiOutlineBuildingOffice2 />{exp.company}</p>
+                                    <p className="flex md:hidden items-center gap-2"><FaRegCalendarAlt />{exp.duration}</p>
+                                    <p className="mb-6 flex items-center gap-2"><FaLocationDot />{exp.location}</p>
                                     <div className="space-y-2">
                                         {exp.bullets.map((bullet, i) => (
                                             <p key={i} className="flex items-center gap-4">
@@ -258,7 +256,7 @@ const Home: React.FC = () => {
                             <p>Drop me a message anytime 📩 — I’m all ears 🧏‍♂️</p>
                         </div>
                         <div className='w-full md:w-1/2'>
-                            <form className="space-y-3">
+                            <form className="space-y-3" onSubmit={formik.handleSubmit}>
                                 <FormInput
                                     id='name'
                                     name='name'
@@ -272,7 +270,7 @@ const Home: React.FC = () => {
                                     id='email'
                                     name='email'
                                     label='Email'
-                                    type='text'
+                                    type='email'
                                     formik={formik}
                                     withLabel={false}
                                     placeholder='Your Email'
@@ -304,6 +302,16 @@ const Home: React.FC = () => {
                                         Send <IoSend className='inline-block ml-2' />
                                     </Button>
                                 </div>
+
+                                {visible && (
+                                    <div
+                                        id="formMessage"
+                                        className={`mt-4 px-4 py-2 rounded ${isSuccess ? 'bg-success-dark' : 'bg-error-main'
+                                            } text-text-light`}
+                                    >
+                                        {response}
+                                    </div>
+                                )}
                             </form>
                         </div>
                     </div>
@@ -313,8 +321,8 @@ const Home: React.FC = () => {
             <SectionContainer id='contact' title='Contact Me' description={`Have a project in mind or a question Reach out and let's turn your ideas into reality.`}>
                 <BlackBox>
                     <div className="grid xs:grid-cols-2 sm:grid-cols-2 gap-3">
-                        {contactInfo.map((link) => (
-                            <div className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
+                        {contactInfo.map((link, id) => (
+                            <div key={id} className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
                                 <div className='rounded-full bg-background-dark p-3'><link.icon className='flex-shrink-0 w-5 h-5' /></div>
                                 <div>
                                     <h3 className='text-lg font-semibold'>{link.title}</h3>
