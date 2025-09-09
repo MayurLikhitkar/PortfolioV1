@@ -7,7 +7,7 @@ interface SectionContainerProps {
     description: string;
     className?: string;
 }
-const SectionContainer: React.FC<SectionContainerProps> = ({ children, className, id, title, description }) => {
+const SectionContainer: React.FC<SectionContainerProps> = ({ children, className, id, title }) => {
     return (
         <section id={id} className={`px-5 py-10 lg:py-15 ${className}`}>
             <div className="container mx-auto max-w-screen-lg">
