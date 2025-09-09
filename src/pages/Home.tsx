@@ -320,13 +320,13 @@ const Home: React.FC = () => {
 
             <SectionContainer id='contact' title='Contact Me' description={`Have a project in mind or a question Reach out and let's turn your ideas into reality.`}>
                 <BlackBox>
-                    <div className="grid xs:grid-cols-2 sm:grid-cols-2 gap-3">
+                    <div className="grid xs:grid-cols-2 gap-3">
                         {contactInfo.map((link, id) => (
                             <div key={id} className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
                                 <div className='rounded-full bg-background-dark p-3'><link.icon className='flex-shrink-0 w-5 h-5' /></div>
                                 <div>
                                     <h3 className='text-lg font-semibold'>{link.title}</h3>
-                                    <p className='text-secondary-dark font-semibold'><a href={link.action}>{link.contact}</a></p>
+                                    <p className='text-secondary-dark break-words break-all font-semibold'><a href={link.action}>{link.contact}</a></p>
                                 </div>
                             </div>
                         ))}
