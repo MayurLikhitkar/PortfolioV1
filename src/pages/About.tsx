@@ -41,7 +41,7 @@ const About: React.FC = () => {
     return (
         <>
             {/* Hero Section */}
-            <section className="px-6 pb-20 pt-40 lg:pb-30 lg:pt-50">
+            <section className="px-6 pb-20 pt-40 lg:pb-30 lg:pt-30">
                 <div className="container mx-auto max-w-screen-xl text-center">
                     <div className="flex justify-center mb-5 sm:mb-10">
                         <img src={logo} className="w-[40vw] h-[40vw] sm:w-[20vw] sm:h-[22vw] bg-background-light rounded-full" alt="Logo" />

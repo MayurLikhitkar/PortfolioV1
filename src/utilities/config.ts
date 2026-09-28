@@ -1,1 +1,1 @@
-export const CONTACT_FORM_SCRIPT_URL = import.meta.env.VITE_CONTACT_FORM_SCRIPT_URL
+export const APP_SCRIPT_URL = import.meta.env.VITE_APP_SCRIPT_URL as string;

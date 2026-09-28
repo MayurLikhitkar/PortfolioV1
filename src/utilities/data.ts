@@ -141,7 +141,6 @@ export const experience = [
     },
 ];
 
-
 export const technologies = [
     { title: "React Js", img: react },
     { title: "Node Js", img: node },
@@ -187,12 +186,12 @@ export const interests = [
         icon: FaCode,
     },
     {
-        title: "Surfing Internet",
-        icon: BsBrowserChrome
-    },
-    {
         title: "New Technologies",
         icon: MdOutlineWysiwyg,
+    },
+    {
+        title: "Surfing Internet",
+        icon: BsBrowserChrome
     },
     {
         title: "Watching Movies",
@@ -203,3 +202,8 @@ export const interests = [
         icon: FaGamepad,
     },
 ]
+
+// i created my portfolio in react ts.
+// in which i put my details which are static/manually written and is hosted successfully.
+// now i have to update my portfolio and i want that all details should be dynamic.
+// so i want to know that in how many ways i can do that and without backend

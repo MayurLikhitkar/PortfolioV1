@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Header from '../components/Header'
 import { Outlet, useLocation } from 'react-router-dom'
 import ScrollToTop from '../components/ScrollToTop';
-import Footer from '../components/Footer';
 
 const MainLayout: React.FC = () => {
     const { pathname, hash } = useLocation();
@@ -26,12 +25,12 @@ const MainLayout: React.FC = () => {
 
 
     return (
-        <div className="bg-background-dark bg-dots">
+        <>
             <Header />
             <Outlet />
             <ScrollToTop />
-            <Footer />
-        </div>
+            {/* <Footer /> */}
+        </>
 
     )
 }

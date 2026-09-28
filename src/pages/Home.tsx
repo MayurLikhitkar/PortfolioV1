@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../templates/Button'
 import { IoLogoGithub } from "react-icons/io";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
@@ -14,15 +14,29 @@ import FormTextArea from '../templates/FormTextArea';
 import { IoChatbox, IoSend } from "react-icons/io5";
 import BlackBox from '../components/BlackBox';
 import Resume from '../assets/documents/MayurLikhitkarResume.pdf';
-import { CONTACT_FORM_SCRIPT_URL } from '../utilities/config';
+import { APP_SCRIPT_URL } from '../utilities/config';
 import { FaLocationDot } from 'react-icons/fa6';
 import { CgNotes } from 'react-icons/cg';
+import type { Education, Experience, Project } from '../utilities/type';
+
+interface Data {
+    projects: Project[];
+    experience: Experience[];
+    education: Education[];
+    skills: string[];
+}
 
 const Home: React.FC = () => {
+    const [data, setData] = useState<Data>({
+        projects: [],
+        experience: [],
+        education: [],
+        skills: [],
+    });
+    const [isLoading, setIsLoading] = useState(true);
     const [response, setResponse] = useState('');
     const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
     const [visible, setVisible] = useState(false);
-    const scriptUrl = CONTACT_FORM_SCRIPT_URL;
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -86,7 +100,7 @@ const Home: React.FC = () => {
                     formData.append(key, value);
                 });
 
-                const res = await fetch(scriptUrl, {
+                const res = await fetch(APP_SCRIPT_URL, {
                     method: 'POST',
                     body: formData,
                 });
@@ -116,6 +130,32 @@ const Home: React.FC = () => {
             setTimeout(() => setVisible(false), 5000);
         }
     });
+
+    useEffect(() => {
+        const fetchAllData = async () => {
+            try {
+                // Just one fetch call without the ?sheet= parameter
+                const response = await fetch(APP_SCRIPT_URL);
+                const result = await response.json();
+                console.log("result=====>", result)
+                console.log("isLoading=====>", isLoading)
+                console.log("data=====>", data)
+                // result now contains { projects: [...], experience: [...], etc. }
+                setData({
+                    projects: result.projects || [],
+                    experience: result.experience || [],
+                    education: result.education || [],
+                    skills: result.skills || []
+                });
+            } catch (error) {
+                console.error('Failed to fetch portfolio data:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchAllData();
+    }, []);
 
     return (
         <>
@@ -236,7 +276,7 @@ const Home: React.FC = () => {
                 <BlackBox>
                     <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-7">
                         {technologies.map((tech, id) => (
-                            <div key={id} className="flex items-center justify-center px-3 py-2 gap-2 rounded-lg text-text-main font-semibold bg-background-light/70 border border-border-main hover:scale-110 transition-all duration-400 ease-in-out cursor-pointer">
+                            <div key={id} className="flex items-center px-3 py-2 gap-2 rounded-lg text-text-main font-semibold bg-background-light/70 border border-border-main hover:scale-110 transition-all duration-400 ease-in-out cursor-pointer">
                                 <img src={tech.img} className='w-7 h-6 contrast-90' alt={tech.title} /><span>{tech.title}</span>
                             </div>
                         ))}
