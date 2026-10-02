@@ -6,7 +6,6 @@ import { FaLinkedin, FaSchool } from "react-icons/fa";
 import { FaChevronRight, FaGraduationCap, FaLocationDot } from "react-icons/fa6";
 import SectionContainer from '../components/SectionContainer';
 import BlackBox from '../components/BlackBox';
-import Resume from '../assets/documents/MayurLikhitkarResume.pdf';
 import { MdOutlineAccessTime } from 'react-icons/md';
 import logo from "../assets/images/logo.png";
 import type { Content } from '../utilities/type';
