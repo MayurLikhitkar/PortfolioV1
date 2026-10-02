@@ -3,6 +3,8 @@ export interface Project {
     title: string;
     description: string;
     duration: string;
+    startDate: string;
+    endDate: string;
     logo: string;
     technologies: string;
     image: string;
@@ -42,6 +44,7 @@ export interface Data {
     dob: string;
     age: number;
     headline: string;
+    headlineGradient: string;
     email: string;
     url: string;
     instagram: string;
@@ -49,9 +52,11 @@ export interface Data {
     github: string;
     location: string;
     whatsapp: string;
+    resume: string;
     aboutHeadline: string;
     aboutHeading: string;
     aboutContent: string;
+    degree: string;
 }
 
 export interface Skill {
@@ -59,4 +64,12 @@ export interface Skill {
     title: string;
     image: string;
     level: string;
+}
+
+export interface Content {
+    projects: Project[];
+    experience: Experience[];
+    education: Education[];
+    skills: Skill[];
+    data: Data[];
 }

@@ -203,6 +203,8 @@ export const interests = [
     },
 ]
 
+export const PRESENT = "Present"
+
 // i created my portfolio in react ts.
 // in which i put my details which are static/manually written and is hosted successfully.
 // now i have to update my portfolio and i want that all details should be dynamic.

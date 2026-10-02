@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Button from '../templates/Button'
-import { IoLogoGithub } from "react-icons/io";
+import { IoLogoGithub, IoMdMail } from "react-icons/io";
 import { VscDebugBreakpointLog } from "react-icons/vsc";
-import { contactInfo, experience, Github, Instagram, Linkedin, projects, technologies, Whatsapp } from '../utilities/data';
+import { PRESENT } from '../utilities/data';
 import { FaLinkedin, FaInstagramSquare, FaWhatsappSquare, FaRegCalendarAlt } from "react-icons/fa";
 import { GoDotFill } from "react-icons/go";
 import { HiOutlineArrowLongDown, HiOutlineBuildingOffice2 } from "react-icons/hi2";
@@ -11,32 +11,53 @@ import FormInput from '../templates/FormInput';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import FormTextArea from '../templates/FormTextArea';
-import { IoChatbox, IoSend } from "react-icons/io5";
+import { IoCall, IoChatbox, IoSend } from "react-icons/io5";
 import BlackBox from '../components/BlackBox';
-import Resume from '../assets/documents/MayurLikhitkarResume.pdf';
 import { APP_SCRIPT_URL } from '../utilities/config';
 import { FaLocationDot } from 'react-icons/fa6';
 import { CgNotes } from 'react-icons/cg';
-import type { Education, Experience, Project } from '../utilities/type';
+import type { Content } from '../utilities/type';
+import PageLoader from '../components/PageLoader';
+import { useQuery } from '@tanstack/react-query';
+import moment from 'moment'
+import { fetchPortfolioData } from '../utilities/api';
 
-interface Data {
-    projects: Project[];
-    experience: Experience[];
-    education: Education[];
-    skills: string[];
-}
+type FormStatus = {
+    message: string;
+    isSuccess: boolean | null;
+    visible: boolean;
+};
 
 const Home: React.FC = () => {
-    const [data, setData] = useState<Data>({
-        projects: [],
-        experience: [],
-        education: [],
-        skills: [],
+    const [status, setStatus] = useState<FormStatus>({
+        message: '',
+        isSuccess: null,
+        visible: false,
     });
-    const [isLoading, setIsLoading] = useState(true);
-    const [response, setResponse] = useState('');
-    const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
-    const [visible, setVisible] = useState(false);
+
+    const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const showStatus = (message: string, isSuccess: boolean) => {
+        // Clear any pending hide from a previous submission
+        if (hideTimerRef.current) {
+            clearTimeout(hideTimerRef.current);
+        }
+
+        setStatus({ message, isSuccess, visible: true });
+
+        hideTimerRef.current = setTimeout(() => {
+            setStatus((prev) => ({ ...prev, visible: false }));
+        }, 5000);
+    };
+
+    // Clear timer on unmount to avoid setState-after-unmount
+    useEffect(() => {
+        return () => {
+            if (hideTimerRef.current) {
+                clearTimeout(hideTimerRef.current);
+            }
+        };
+    }, []);
 
     const validationSchema = Yup.object().shape({
         name: Yup.string()
@@ -90,9 +111,10 @@ const Home: React.FC = () => {
         },
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
-            setVisible(false);
-            setResponse('');
-            setIsSuccess(null);
+            if (hideTimerRef.current) {
+                clearTimeout(hideTimerRef.current);
+            }
+            setStatus({ message: '', isSuccess: null, visible: false });
 
             try {
                 const formData = new FormData();
@@ -105,68 +127,52 @@ const Home: React.FC = () => {
                     body: formData,
                 });
 
+                // console.log("=============>", res)
+
                 if (res.ok) {
                     resetForm();
-                    setResponse('Your message has been sent!');
-                    setIsSuccess(true);
-                    setVisible(true);
+                    showStatus('Your query has been sent! I will get back to you soon.', true);
                 } else {
-                    setResponse('Failed to send message.');
-                    setIsSuccess(false);
-                    setVisible(true);
+                    showStatus('Failed to send query. Please try again later.', false);
                 }
             } catch (error) {
                 if (error instanceof Error) {
                     console.error(`Submission Error:`, error.message);
-                    setResponse('Error: ' + error.message);
+                    showStatus('Error: ' + error.message, false);
                 } else {
                     console.error(`Unknown Submission Error`, error);
-                    setResponse('Something went wrong.');
+                    showStatus('Something went wrong.', false);
                 }
-                setIsSuccess(false);
-                setVisible(true);
             }
-
-            setTimeout(() => setVisible(false), 5000);
         }
     });
 
-    useEffect(() => {
-        const fetchAllData = async () => {
-            try {
-                // Just one fetch call without the ?sheet= parameter
-                const response = await fetch(APP_SCRIPT_URL);
-                const result = await response.json();
-                console.log("result=====>", result)
-                console.log("isLoading=====>", isLoading)
-                console.log("data=====>", data)
-                // result now contains { projects: [...], experience: [...], etc. }
-                setData({
-                    projects: result.projects || [],
-                    experience: result.experience || [],
-                    education: result.education || [],
-                    skills: result.skills || []
-                });
-            } catch (error) {
-                console.error('Failed to fetch portfolio data:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const { data, isLoading } = useQuery<Content>({
+        queryKey: ['portfolioData'],
+        queryFn: fetchPortfolioData,
+        staleTime: 60 * 60, // 10 Minutes: Data won't be refetched if user navigates away and back within 10 minutes
+    });
 
-        fetchAllData();
-    }, []);
+    if (isLoading) {
+        return <PageLoader />;
+    }
+
+    const content = data || {
+        projects: [], experience: [], education: [], skills: [], data: []
+    };
+
+    // console.log('content', content)
 
     return (
         <>
             {/* Hero Section */}
             <section className="px-6 pb-20 pt-40 lg:pb-30 lg:pt-50">
                 <div className="container mx-auto max-w-screen-xl text-center">
-                    <h5 className="text-xl lg:text-3xl font-bold mb-3 sm:mb-6 text-text-main">
-                        {/* Mayur Likhitkar */} Hi, I'm <span className='bg-gradient-to-r from-primary-light to-secondary-main bg-clip-text text-transparent tracking-wider'>Mayur Likhitkar</span>
+                    <h5 className="text-xl lg:text-3xl font-bold mb-3 sm:mb-4 text-text-main">
+                        Hi, I'm <span className='bg-gradient-to-r from-primary-light to-secondary-main bg-clip-text text-transparent tracking-wider'>{content.data[0].name}</span>
                     </h5>
-                    <p className="text-2xl md:text-4xl lg:text-5xl text-text-main mb-8 font-bold tracking-wider max-w-4xl mx-auto">
-                        Transforming Concepts into Seamless <span className='bg-gradient-to-r from-primary-light to-secondary-main bg-clip-text text-transparent '>User Experiences</span>
+                    <p className="text-2xl md:text-4xl lg:text-5xl text-text-main mb-8 font-bold tracking-wider max-w-4xl mx-auto lg:leading-18">
+                        {content.data[0].headline} <span className='bg-gradient-to-r from-primary-light to-secondary-main bg-clip-text text-transparent '>{content.data[0].headlineGradient}</span>
                     </p>
                     <div className="flex flex-wrap gap-2 justify-center">
                         <Button
@@ -177,13 +183,13 @@ const Home: React.FC = () => {
                         </Button>
                         <Button
                             variant="outline"
-                            to={Resume}
+                            to={content.data[0].resume}
                             link>
                             <CgNotes className='inline-block mr-1' /> Resume
                         </Button>
                         <Button
                             link
-                            to={Linkedin}
+                            to={content.data[0].linkedIn}
                             variant="outline"
                             target='_blank'
                         >
@@ -191,7 +197,7 @@ const Home: React.FC = () => {
                         </Button>
                         <Button
                             link
-                            to={Github}
+                            to={content.data[0].github}
                             variant="outline"
                             target='_blank'
                         >
@@ -205,9 +211,9 @@ const Home: React.FC = () => {
                 <div className="relative space-y-5 md:space-y-7">
                     {/* Timeline Line */}
                     <div className="block absolute left-2 sm:left-6 h-full w-0.5 bg-primary-dark" />
-                    {experience.map((exp, id) => (
+                    {content.experience.map((exp) => (
                         <div
-                            key={id}
+                            key={exp.id}
                             className="flex items-center"
                             data-aos="fade-up"
                         >
@@ -221,13 +227,13 @@ const Home: React.FC = () => {
                                         <h3 className="text-xl font-bold text-secondary-dark">
                                             {exp.role}
                                         </h3>
-                                        <p className="hidden md:block text-sm font-semibold bg-background-light px-3 py-1 rounded md:rounded-full w-fit">{exp.duration}</p>
+                                        <p className="hidden md:block text-sm font-semibold bg-background-light px-3 py-1 rounded md:rounded-full w-fit">{moment(exp.startDate).format("MMM YYYY")} - {exp.endDate === PRESENT ? PRESENT : moment(exp.endDate).format("MMM YYYY")}</p>
                                     </div>
                                     <p className="font-semibold flex items-center gap-2"><HiOutlineBuildingOffice2 />{exp.company}</p>
                                     <p className="flex md:hidden items-center gap-2"><FaRegCalendarAlt />{exp.duration}</p>
                                     <p className="mb-6 flex items-center gap-2"><FaLocationDot />{exp.location}</p>
                                     <div className="space-y-2">
-                                        {exp.bullets.map((bullet, i) => (
+                                        {exp.bullets?.split('^').map((bullet, i) => (
                                             <p key={i} className="flex items-center gap-4">
                                                 <VscDebugBreakpointLog className="flex-shrink-0 h-3 w-3" />
                                                 <span>{bullet}</span>
@@ -243,23 +249,23 @@ const Home: React.FC = () => {
 
             <SectionContainer id='projects' title='Projects' description='Showcasing my expertise in full-stack development, performance optimization, and scalable architecture'>
                 <div className='space-y-5'>
-                    {projects.map((project, id) => (
-                        <BlackBox key={id} className='space-y-5'>
+                    {content.projects.map((project) => (
+                        <BlackBox key={project.id} className='space-y-5'>
                             <div className='flex flex-col md:flex-row items-start md:items-center md:justify-between gap-3'>
                                 <h3 className='font-bold text-2xl text-secondary-main'>{project.title}</h3>
-                                <p className='text-sm font-semibold bg-background-light px-3 py-1 rounded md:rounded-full'>{project.duration}</p>
+                                <p className='text-sm font-semibold bg-background-light px-3 py-1 rounded md:rounded-full'>{moment(project.startDate).format("MMM YYYY")} - {project.endDate === PRESENT ? PRESENT : moment(project.endDate).format("MMM YYYY")}</p>
                             </div>
                             <div className='flex flex-col md:flex-row gap-10'>
                                 <div className='md:w-1/2 space-y-4'>
                                     <p className='text-justify'>{project.description}</p>
                                     <div className="flex flex-wrap gap-2">
-                                        {project.technologies.map((tech, id) => (
+                                        {project.technologies.split("^").map((tech, id) => (
                                             <div key={id} className="items-center rounded border px-2 py-0.5 font-semibold border-border-main/50 bg-secondary-main text-dark-dark text-sm">{tech}</div>
                                         ))}
                                     </div>
                                 </div>
                                 <div className='md:w-1/2 space-y-2'>
-                                    {project.bullets.map((bullet, id) => (
+                                    {project.bullets.split("^").map((bullet, id) => (
                                         <p key={id} className="flex items-center gap-4">
                                             <VscDebugBreakpointLog className="flex-shrink-0 h-3 w-3" />
                                             <span>{bullet}</span>
@@ -275,9 +281,9 @@ const Home: React.FC = () => {
             <SectionContainer id='skills' title='Skills & Technologies' description='A curated selection of my expertise in modern web and software development'>
                 <BlackBox>
                     <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-7">
-                        {technologies.map((tech, id) => (
-                            <div key={id} className="flex items-center px-3 py-2 gap-2 rounded-lg text-text-main font-semibold bg-background-light/70 border border-border-main hover:scale-110 transition-all duration-400 ease-in-out cursor-pointer">
-                                <img src={tech.img} className='w-7 h-6 contrast-90' alt={tech.title} /><span>{tech.title}</span>
+                        {content.skills.map((skill) => (
+                            <div key={skill.id} className="flex items-center px-3 py-2 gap-2 rounded-lg text-text-main font-semibold bg-background-light/70 border border-border-main hover:scale-110 transition-all duration-400 ease-in-out cursor-pointer">
+                                <img src={skill.image} className='w-7 h-6 contrast-90' alt={skill.title} /><span>{skill.title}</span>
                             </div>
                         ))}
                     </div>
@@ -338,18 +344,19 @@ const Home: React.FC = () => {
                                     <Button
                                         type="submit"
                                         className='w-full'
+                                        disabled={formik.isSubmitting}
                                     >
-                                        Send <IoSend className='inline-block ml-2' />
+                                        {formik.isSubmitting ? 'Submitting...' : 'Send'} <IoSend className='inline-block ml-2' />
                                     </Button>
                                 </div>
 
-                                {visible && (
+                                {status.visible && (
                                     <div
                                         id="formMessage"
-                                        className={`mt-4 px-4 py-2 rounded ${isSuccess ? 'bg-success-dark' : 'bg-error-main'
+                                        className={`mt-4 px-4 py-2 rounded ${status.isSuccess ? 'bg-success-dark' : 'bg-error-main'
                                             } text-text-light`}
                                     >
-                                        {response}
+                                        {status.message}
                                     </div>
                                 )}
                             </form>
@@ -361,23 +368,35 @@ const Home: React.FC = () => {
             <SectionContainer id='contact' title='Contact Me' description={`Have a project in mind or a question Reach out and let's turn your ideas into reality.`}>
                 <BlackBox>
                     <div className="grid xs:grid-cols-2 gap-3">
-                        {contactInfo.map((link, id) => (
-                            <div key={id} className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
-                                <div className='rounded-full bg-background-dark p-3'><link.icon className='flex-shrink-0 w-5 h-5' /></div>
-                                <div>
-                                    <h3 className='text-lg font-semibold'>{link.title}</h3>
-                                    <p className='text-secondary-dark break-words break-all font-semibold'><a href={link.action}>{link.contact}</a></p>
-                                </div>
+                        <div className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
+                            <div className='rounded-full bg-background-dark p-3'><IoMdMail className='flex-shrink-0 w-5 h-5' /></div>
+                            <div>
+                                <h3 className='text-lg font-semibold'>Email Me</h3>
+                                <p className='text-secondary-dark break-words break-all font-semibold'><a href={`mailto:${content.data[0].email}`}>{content.data[0].email}</a></p>
                             </div>
-                        ))}
+                        </div>
+                        <div className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
+                            <div className='rounded-full bg-background-dark p-3'><IoCall className='flex-shrink-0 w-5 h-5' /></div>
+                            <div>
+                                <h3 className='text-lg font-semibold'>Call Me</h3>
+                                <p className='text-secondary-dark break-words break-all font-semibold'><a href={`tel:+91${content.data[0].contact}`}>+91 {content.data[0].contact}</a></p>
+                            </div>
+                        </div>
+                        <div className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
+                            <div className='rounded-full bg-background-dark p-3'><FaLocationDot className='flex-shrink-0 w-5 h-5' /></div>
+                            <div>
+                                <h3 className='text-lg font-semibold'>I'm Based In</h3>
+                                <p className='text-secondary-dark break-words break-all font-semibold'>{content.data[0].location}</p>
+                            </div>
+                        </div>
                         <div className='bg-background-light p-3 flex items-center gap-3 rounded-md'>
                             <div className='rounded-full bg-background-dark p-3'><IoChatbox className='flex-shrink-0 w-5 h-5' /></div>
                             <div>
                                 <h3 className='text-lg font-semibold'>Connect Me On</h3>
                                 <div className='flex py-1 gap-3'>
-                                    <a target='_blank' href={Linkedin} className=''><FaLinkedin className='flex-shrink-0 text-secondary-dark w-7 h-7' /></a>
-                                    <a target='_blank' href={Whatsapp} className=''><FaWhatsappSquare className='flex-shrink-0 text-secondary-dark w-7 h-7' /></a>
-                                    <a target='_blank' href={Instagram} className=''><FaInstagramSquare className='flex-shrink-0 text-secondary-dark w-7 h-7' /></a>
+                                    <a target='_blank' href={content.data[0].linkedIn} className=''><FaLinkedin className='flex-shrink-0 text-secondary-dark w-7 h-7' /></a>
+                                    <a target='_blank' href={content.data[0].whatsapp} className=''><FaWhatsappSquare className='flex-shrink-0 text-secondary-dark w-7 h-7' /></a>
+                                    <a target='_blank' href={content.data[0].instagram} className=''><FaInstagramSquare className='flex-shrink-0 text-secondary-dark w-7 h-7' /></a>
                                 </div>
                             </div>
                         </div>

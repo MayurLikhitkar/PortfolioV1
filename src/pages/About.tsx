@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Button from '../templates/Button'
 import { CgNotes } from "react-icons/cg";
-import { education, interests, Linkedin } from '../utilities/data';
+import { interests, PRESENT } from '../utilities/data';
 import { FaLinkedin, FaSchool } from "react-icons/fa";
 import { FaChevronRight, FaGraduationCap, FaLocationDot } from "react-icons/fa6";
 import SectionContainer from '../components/SectionContainer';
@@ -9,34 +9,42 @@ import BlackBox from '../components/BlackBox';
 import Resume from '../assets/documents/MayurLikhitkarResume.pdf';
 import { MdOutlineAccessTime } from 'react-icons/md';
 import logo from "../assets/images/logo.png";
+import type { Content } from '../utilities/type';
+import { fetchPortfolioData } from '../utilities/api';
+import PageLoader from '../components/PageLoader';
+import { useQuery } from '@tanstack/react-query';
+import moment from 'moment';
 
 const About: React.FC = () => {
-    const birthDate = new Date('2004-05-15');
-    const calculateAge = () => {
-        const now = new Date();
 
-        let years = now.getFullYear() - birthDate.getFullYear();
-        let months = now.getMonth() - birthDate.getMonth();
+    const { data, isLoading } = useQuery<Content>({
+        queryKey: ['portfolioData'],
+        queryFn: fetchPortfolioData,
+        staleTime: 60 * 60,
+    });
 
-        // If current month is before birth month, subtract 1 year and adjust months
-        if (months < 0) {
-            years--;
-            months += 12;
-        }
+    const content = data || {
+        projects: [], experience: [], education: [], skills: [], data: []
+    };
+
+    const calculateAge = (dob: string | undefined) => {
+        if (!dob) return null;
+
+        const birthDate = moment(dob, 'DD/MM/YYYY'); // replace with your actual dob format
+        if (!birthDate.isValid()) return null;
+
+        const now = moment();
+        const years = now.diff(birthDate, 'years');
+        const months = now.diff(birthDate.clone().add(years, 'years'), 'months');
 
         return { years, months };
     };
 
-    const [age, setAge] = useState(calculateAge());
+    const [age] = useState(() => calculateAge(content.data[0]?.dob));
 
-    // Update age once a day (or change interval as needed)
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setAge(calculateAge());
-        }, 1000 * 60 * 60 * 24); // every 24 hours
-
-        return () => clearInterval(timer);
-    }, []);
+    if (isLoading) {
+        return <PageLoader />;
+    }
 
     return (
         <>
@@ -47,21 +55,21 @@ const About: React.FC = () => {
                         <img src={logo} className="w-[40vw] h-[40vw] sm:w-[20vw] sm:h-[22vw] bg-background-light rounded-full" alt="Logo" />
                     </div>
                     <h5 className="text-2xl md:text-4xl lg:text-5xl text-text-main mb-4 md:mb-8 font-bold tracking-wider max-w-4xl mx-auto">
-                        I'm <span className='bg-gradient-to-r from-primary-light to-secondary-main bg-clip-text text-transparent '>Mayur Likhitkar</span>
+                        I'm <span className='bg-gradient-to-r from-primary-light to-secondary-main bg-clip-text text-transparent '>{content.data[0].name}</span>
                     </h5>
                     <p className="text-base sm:text-lg lg:text-xl max-w-3xl mx-auto font-semibold mb-6 text-text-main">
-                        Delivering complete solutions—from intuitive UI design in React to robust backend APIs in Node.js, every project emphasizes scalability, performance, and maintainability.
+                        {content.data[0].aboutHeadline}
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
                         <Button
                             variant="outline"
-                            to={Resume}
+                            to={content.data[0].resume}
                             link>
                             <CgNotes className='inline-block mr-1' /> Resume
                         </Button>
                         <Button
                             link
-                            to={Linkedin}
+                            to={content.data[0].linkedIn}
                             variant="outline"
                         >
                             <FaLinkedin className='text-2xl' />
@@ -72,31 +80,29 @@ const About: React.FC = () => {
 
             <SectionContainer id='about' title='More About Me' description='More About Me'>
                 <BlackBox className='space-y-5 text-justify'>
-                    <h1 className='font-bold text-2xl text-secondary-dark'>Software Developer</h1>
-                    <p>I write, design, debug, commit and refactor (more than I'd like to admit 😂)</p>
-                    <p>Curiosity led me from a <span className='text-secondary-main font-semibold'>Computer Science</span> classroom to crafting real-world web solutions. As a <span className='text-secondary-main font-semibold'>MERN Stack</span> enthusiast, I thrive on building responsive interfaces with React, robust APIs with Node.js and Express, and managing data with MongoDB and MySQL.</p>
-                    <p>I believe in continuous improvement, embracing new frameworks and tackling projects with enthusiasm and a commitment to excellence.</p>
-                    <p>My journey includes internship experience in CRM portals, developing reusable components, and collaborating with dynamic teams.</p>
-                    <p>Now, I’m dedicated to creating Secure, Scalable, and Maintainable applications that solve real problems - <span className='text-secondary-main font-semibold'>Always Learning, Always Debugging, and Always Aiming Higher</span>.</p>
+                    <h1 className='font-bold text-2xl text-secondary-dark'>{content.data[0].aboutHeading}</h1>
+                    {content.data[0].aboutContent.split("^").map((para, index) => (
+                        <p key={index}>{para}</p>
+                    ))}
                     <div className='grid sm:grid-cols-2 gap-2 font-semibold text-secondary-light'>
-                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />Age - {age.years} years {age.months} months</div>
-                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />Location - Indore, Madhya Pradesh</div>
-                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />Degree - Bachelor of Engineering in Computer Science</div>
-                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />Email - mayurlikhitkar786@gmail.com</div>
+                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />Age - {age?.years} years {age?.months} months</div>
+                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />{content.data[0].location}</div>
+                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />Degree - {content.data[0].degree}</div>
+                        <div className='flex items-center gap-3'><FaChevronRight className='text-sm' />Email - {content.data[0].email}</div>
                     </div>
                 </BlackBox>
             </SectionContainer>
 
             <SectionContainer id='education' title='Education' description=''>
                 <div className='space-y-5'>
-                    {education.map((edu, id) => (
-                        <BlackBox key={id} className='space-y-2 text-text-main'>
+                    {content.education.map((edu) => (
+                        <BlackBox key={edu.id} className='space-y-2 text-text-main'>
                             <div className='flex flex-col lg:flex-row items-start lg:items-center md:justify-between gap-3'>
-                                <h3 className='flex items-center gap-3 font-bold text-lg sm:text-2xl text-secondary-dark'><FaGraduationCap className='flex-shrink-0 h-4 w-4' />{edu.degree}</h3>
-                                <p className='text-sm hidden lg:block font-semibold bg-background-light px-3 py-1 rounded-full'>{edu.duration}</p>
+                                <h3 className='flex items-center gap-3 font-bold text-lg sm:text-2xl text-secondary-dark'><FaGraduationCap className='flex-shrink-0 h-4 w-4' />{edu.course}</h3>
+                                <p className='text-sm hidden lg:block font-semibold bg-background-light px-3 py-1 rounded-full'>{moment(edu.startDate).format("MMM YYYY")} - {edu.endDate === PRESENT ? PRESENT : moment(edu.endDate).format("MMM YYYY")}</p>
                             </div>
-                            <p className='flex items-center gap-3 lg:hidden'><MdOutlineAccessTime className='flex-shrink-0 h-4 w-4' />{edu.duration}</p>
-                            <p className='flex items-center gap-3'><FaSchool className='flex-shrink-0 h-4 w-4' />{edu.institute}</p>
+                            <p className='flex items-center gap-3 lg:hidden'><MdOutlineAccessTime className='flex-shrink-0 h-4 w-4' />{moment(edu.startDate).format("MMM YYYY")} - {edu.endDate === PRESENT ? PRESENT : moment(edu.endDate).format("MMM YYYY")}</p>
+                            <p className='flex items-center gap-3'><FaSchool className='flex-shrink-0 h-4 w-4' />{edu.institution}</p>
                             <p className='flex items-center gap-3'><FaLocationDot className='flex-shrink-0 h-4 w-4' />{edu.location}</p>
                         </BlackBox>
                     ))}
